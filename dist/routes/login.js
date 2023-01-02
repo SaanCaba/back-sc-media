@@ -11,7 +11,6 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 Object.defineProperty(exports, "__esModule", { value: true });
 const { Router } = require('express');
 const router = Router();
-const connect = require('../database/connection');
 const User = require('../models/user');
 const validate = require('../utils/validate');
 const bcrypt = require('bcrypt');
@@ -34,7 +33,10 @@ router.post('/', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
             return res.status(401).send({ message: 'ERROR ' + "Invalid email or password" });
         }
         const token = generateAuthToken();
-        res.status(200).send({ data: token, message: "Logged in succesfully" });
+        //obtenemos el _id del usuario logeado, y la mandamos al front para usarla!
+        let id = user._id;
+        let idConvert = id.toString();
+        res.status(200).send({ data: token, id: idConvert, message: "Logged in succesfully" });
     }
     catch (error) {
         console.log(error);
