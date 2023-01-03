@@ -36,7 +36,7 @@ router.post('/', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
         //obtenemos el _id del usuario logeado, y la mandamos al front para usarla!
         let id = user._id;
         let idConvert = id.toString();
-        res.status(200).send({ data: token, id: idConvert, message: "Logged in succesfully" });
+        res.status(200).send({ data: token, id: idConvert, username: user.username, message: "Logged in succesfully" });
     }
     catch (error) {
         console.log(error);
