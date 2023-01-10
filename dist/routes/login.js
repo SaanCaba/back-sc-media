@@ -12,7 +12,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const { Router } = require('express');
 const router = Router();
 const User = require('../models/user');
-const validate = require('../utils/validate');
+const validate = require('../utils/validateLogin');
 const bcrypt = require('bcrypt');
 const generateAuthToken = require('../utils/token');
 router.post('/', (req, res) => __awaiter(void 0, void 0, void 0, function* () {

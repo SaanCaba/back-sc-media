@@ -2,7 +2,7 @@ import { Request, Response } from "express";
 const { Router } = require('express');
 const router = Router()
 const User = require('../models/user')
-const validate = require('../utils/validate')
+const validate = require('../utils/validateLogin')
 const bcrypt  = require( 'bcrypt')
 const generateAuthToken = require('../utils/token')
 
