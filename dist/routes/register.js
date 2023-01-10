@@ -12,7 +12,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const { Router } = require('express');
 const router = Router();
 const bcrypt = require('bcrypt');
-const User = require('../models/user');
+const Company = require('../models/company');
 const validate = require('../utils/validate');
 router.post('/', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
@@ -21,13 +21,13 @@ router.post('/', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
         if (error) {
             return res.status(402).json({ message: 'ERROR ' + error.details[0].message, error: true });
         }
-        const user = yield User.findOne({ username: req.body.username });
-        if (user) {
-            return res.status(409).send({ message: 'ERROR ' + "User with this username already exists", error: true });
+        const company = yield Company.findOne({ name: req.body.name });
+        if (company) {
+            return res.status(409).send({ message: 'ERROR ' + "Company with this username already exists", error: true });
         }
         const salt = yield bcrypt.genSalt(Number(process.env.NEXT_PUBLIC_SALT));
         const hashPassword = yield bcrypt.hash(req.body.password, salt);
-        yield new User(Object.assign(Object.assign({}, req.body), { password: hashPassword }))
+        yield new Company(Object.assign(Object.assign({}, req.body), { password: hashPassword }))
             .save();
         res.status(201).send({ message: "User created succesfully" });
     }

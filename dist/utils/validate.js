@@ -3,7 +3,7 @@ const Joi = require('joi');
 const passwordComplexity = require('joi-password-complexity');
 const validate = (data) => {
     const schema = Joi.object({
-        username: Joi.string().required().label("Username"),
+        name: Joi.string().required().label("Name"),
         password: passwordComplexity().required().label("Password"),
         email: Joi.string().required().label("Email")
     });

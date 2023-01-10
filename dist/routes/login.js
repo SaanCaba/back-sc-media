@@ -11,7 +11,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 Object.defineProperty(exports, "__esModule", { value: true });
 const { Router } = require('express');
 const router = Router();
-const User = require('../models/user');
+const Company = require('../models/company');
 const validate = require('../utils/validateLogin');
 const bcrypt = require('bcrypt');
 const generateAuthToken = require('../utils/token');
@@ -23,20 +23,20 @@ router.post('/', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
         if (error) {
             return res.status(400).send({ message: 'ERROR ' + error.details[0].message });
         }
-        console.log(User);
-        const user = yield User.findOne({ username: req.body.username });
-        if (!user) {
+        console.log(Company);
+        const company = yield Company.findOne({ name: req.body.name });
+        if (!company) {
             return res.status(401).send({ message: 'ERROR ' + "Invalid email or password" });
         }
-        const validPassword = yield bcrypt.compare(req.body.password, user.password);
+        const validPassword = yield bcrypt.compare(req.body.password, company.password);
         if (!validPassword) {
             return res.status(401).send({ message: 'ERROR ' + "Invalid email or password" });
         }
         const token = generateAuthToken();
         //obtenemos el _id del usuario logeado, y la mandamos al front para usarla!
-        let id = user._id;
+        let id = company._id;
         let idConvert = id.toString();
-        res.status(200).send({ data: token, id: idConvert, username: user.username, message: "Logged in succesfully" });
+        res.status(200).send({ data: token, id: idConvert, username: company.name, message: "Logged in succesfully" });
     }
     catch (error) {
         console.log(error);

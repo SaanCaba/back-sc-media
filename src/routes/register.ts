@@ -7,7 +7,7 @@ const { Router } = require('express');
 
 const router = Router()
 const bcrypt  = require( 'bcrypt')
-const User = require('../models/user')
+const Company = require('../models/company')
 const validate = require('../utils/validate')
 
 
@@ -18,14 +18,14 @@ router.post('/', async(req:Request, res: Response) => {
         if(error){
             return res.status(402).json({message:'ERROR ' + error.details[0].message , error:true})
         }
-        const user = await User.findOne({username:req.body.username})
-        if(user){
-            return res.status(409).send({message:'ERROR ' +  "User with this username already exists", error:true})
+        const company = await Company.findOne({name:req.body.name})
+        if(company){
+            return res.status(409).send({message:'ERROR ' +  "Company with this username already exists", error:true})
         }
         const salt = await bcrypt.genSalt(Number(process.env.NEXT_PUBLIC_SALT))
         const hashPassword = await bcrypt.hash(req.body.password, salt)
 
-        await new User({...req.body, password: hashPassword})
+        await new Company({...req.body, password: hashPassword, employees: {pepe:'pepe'}})
         .save()
         res.status(201).send({message: "User created succesfully"})
 
